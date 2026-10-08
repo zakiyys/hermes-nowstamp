@@ -1,0 +1,17 @@
+name: nowstamp
+version: 1.0.1
+manifest_version: 2
+description: Inject current date and time, plus time since the previous message, into every turn (and optionally into tool results)
+license: MIT
+tags: [time, context]
+provides_hooks:
+  - pre_llm_call
+  - post_llm_call
+  - transform_tool_result
+config_schema:
+  timezone: {type: str, default: "", description: "IANA timezone override, e.g. Asia/Makassar. Empty = follow the Hermes timezone setting"}
+  format: {type: str, default: "%a %Y-%m-%d %H:%M %Z (UTC%z)", description: "strftime format for the timestamp"}
+  language: {type: str, default: "en", choices: [en, id], description: "Day name language"}
+  show_elapsed: {type: bool, default: true, description: "Also say how long ago the previous message in the conversation was"}
+  stamp_tool_results: {type: bool, default: false, description: "Also add the current time to tool results during long turns"}
+  stamp_interval_seconds: {type: int, default: 60, description: "Minimum seconds between tool-result stamps. 0 = stamp every tool result"}
